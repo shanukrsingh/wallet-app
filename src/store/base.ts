@@ -56,9 +56,6 @@ export interface Store {
   ): Promise<Transfer>;
 }
 
-export const isUniqueViolationSqlite = (e: unknown) =>
-  e instanceof Error && /UNIQUE constraint failed/.test(e.message);
-
 export const isUniqueViolationPg = (e: unknown) =>
   typeof e === "object" &&
   e !== null &&

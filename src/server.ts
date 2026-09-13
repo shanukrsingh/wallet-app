@@ -5,10 +5,12 @@ import { latency, logger, registry, requests } from "./telemetry.js";
 
 const app = express();
 
-const store: Store = makeStore({
-  connectionString: process.env.DATABASE_URL,
-  sqlitePath: process.env.SQLITE_PATH,
-});
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  throw new Error("DATABASE_URL is required (e.g. postgres://wallet:wallet@localhost:5432/wallet)");
+}
+
+const store: Store = makeStore({ connectionString });
 
 const outputWallet = (r: Wallet) => ({
   id: r.id,
